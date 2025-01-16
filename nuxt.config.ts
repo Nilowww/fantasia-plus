@@ -6,8 +6,10 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
+  srcDir: 'src/',
   modules: [
     '@nuxtjs/supabase',
+    '@pinia/nuxt',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         // @ts-expect-error
