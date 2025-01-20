@@ -12,19 +12,24 @@ export function useMovies() {
   const totalPages = ref(1)
   const selectedType = ref<EOMDbType>(EOMDbType.MOVIE)
 
+  function getSearchTerm() {
+    return selectedType.value === EOMDbType.MOVIE ? 'movie' : 'series'
+  }
+
   async function fetchMovies(page = 1) {
     loading.value = true
     error.value = null
     try {
-      const response = await OMDbService.getList('movie', selectedType.value, page)
+      const searchTerm = getSearchTerm()
+      const response = await OMDbService.getList(searchTerm, selectedType.value, page)
       if (response.data.Response === 'True') {
         movies.value = response.data.Search
         totalPages.value = Math.ceil(parseInt(response.data.totalResults) / 10)
       } else {
-        error.value = 'Unable to load movies'
+        error.value = `Unable to load ${searchTerm}`
       }
     } catch (e) {
-      error.value = 'Error loading movies'
+      error.value = `Error loading ${getSearchTerm()}`
     } finally {
       loading.value = false
     }
