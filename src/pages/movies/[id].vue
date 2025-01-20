@@ -26,6 +26,14 @@
                 <v-chip color="primary" variant="elevated" class="mr-2">{{ currentMovie.Year }}</v-chip>
                 <v-chip color="secondary" variant="elevated" class="mr-2">{{ currentMovie.Rated }}</v-chip>
                 <v-chip color="info" variant="elevated">{{ currentMovie.Runtime }}</v-chip>
+                <!-- Add Type indicator -->
+                <v-chip 
+                  :color="currentMovie.Type === 'movie' ? 'success' : 'warning'" 
+                  variant="elevated" 
+                  class="ml-2"
+                >
+                  {{ currentMovie.Type === 'movie' ? 'Movie' : 'TV Series' }}
+                </v-chip>
                 
                 <div class="rating-container mt-4">
                   <v-rating
@@ -80,10 +88,29 @@
                   <p>{{ currentMovie.Language }}</p>
                 </div>
 
-                <div class="detail-item" v-if="'BoxOffice' in currentMovie && currentMovie.BoxOffice !== 'N/A'">
-                  <h4>Box Office</h4>
-                  <p>{{ currentMovie.BoxOffice }}</p>
-                </div>
+                <!-- Show movie-specific details -->
+                <template v-if="isMovie">
+                  <div class="detail-item" v-if="movieDetails.BoxOffice !== 'N/A'">
+                    <h4>Box Office</h4>
+                    <p>{{ movieDetails.BoxOffice }}</p>
+                  </div>
+                  <div class="detail-item" v-if="movieDetails.DVD !== 'N/A'">
+                    <h4>DVD Release</h4>
+                    <p>{{ movieDetails.DVD }}</p>
+                  </div>
+                  <div class="detail-item" v-if="movieDetails.Production !== 'N/A'">
+                    <h4>Production</h4>
+                    <p>{{ movieDetails.Production }}</p>
+                  </div>
+                </template>
+
+                <!-- Show series-specific details -->
+                <template v-else>
+                  <div class="detail-item">
+                    <h4>Total Seasons</h4>
+                    <p>{{ seriesDetails.totalSeasons }}</p>
+                  </div>
+                </template>
               </div>
             </div>
           </div>
@@ -112,19 +139,18 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  middleware: 'authenticated'
-})
+import type { OMDbMovie, OMDbSerie } from '~/types/movies';
+
+definePageMeta({ middleware: 'authenticated' })
 
 const router = useRouter()
 const route = useRoute()
+const { currentMovie, loading, error, fetchMovieById } = useMovies()
 
-const { 
-  currentMovie,
-  loading,
-  error,
-  fetchMovieById
-} = useMovies()
+// Type guards
+const isMovie = computed(() => currentMovie.value?.Type === 'movie')
+const movieDetails = computed(() => currentMovie.value as OMDbMovie)
+const seriesDetails = computed(() => currentMovie.value as OMDbSerie)
 
 onMounted(async () => {
   await fetchMovieById(route.params.id as string)
