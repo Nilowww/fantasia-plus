@@ -12,60 +12,49 @@
       ></v-pagination>
     </div>
   
-    <v-fade-transition>
-      <v-row>
-        <v-col
-          v-for="movie in movies"
-          :key="movie.imdbID"
-          cols="12"
-          sm="6"
-          md="4"
-          lg="2"
-          xl="2"
-        >
-          <MovieCard
-            :movie="movie"
-            @click="$emit('select', movie.imdbID)"
-          />
-        </v-col>
-      </v-row>
-    </v-fade-transition>
+    <v-row>
+      <v-col
+        v-for="movie in movies"
+        :key="movie.imdbID"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="2"
+        xl="2"
+      >
+        <MovieCard
+          :movie="movie"
+          @click="$emit('select', movie.imdbID)"
+        />
+      </v-col>
+    </v-row>
   </div>
-  </template>
+</template>
   
-  <script setup lang="ts">
-  import type { OMDbShort } from '~/types/movies'
+<script setup lang="ts">
+import type { OMDbShort } from '~/types/movies'
   
-  defineProps<{
-    movies: OMDbShort[]
-    totalPages: number
-    modelValue: number
-  }>()
+defineProps<{
+  movies: OMDbShort[]
+  totalPages: number
+  modelValue: number
+  loading?: boolean
+}>()
   
-  defineEmits<{
-    'update:modelValue': [value: number]
-    select: [id: string]
-  }>()
-  </script>
+defineEmits<{
+  'update:modelValue': [value: number]
+  select: [id: string]
+}>()
+</script>
   
-  <style scoped>
-  :deep(.pagination-custom) {
-    .v-pagination__item {
-      color: white;
-      background: rgba(255, 255, 255, 0.1);
-      &--active {
-        background: rgb(79, 172, 254) !important;
-      }
+<style scoped>
+:deep(.pagination-custom) {
+  .v-pagination__item {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    &--active {
+      background: rgb(79, 172, 254) !important;
     }
   }
-  
-  :deep(.v-fade-transition-enter-active),
-  :deep(.v-fade-transition-leave-active) {
-    transition: opacity 0.3s ease;
-  }
-  
-  :deep(.v-fade-transition-enter-from),
-  :deep(.v-fade-transition-leave-to) {
-    opacity: 0;
-  }
-  </style>
+}
+</style>

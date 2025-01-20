@@ -100,4 +100,4 @@ const handleSearch = () => {
   border-radius: 0 8px 8px 0;
   font-weight: 600;
 }
-</style>
+</style> 

@@ -57,10 +57,10 @@ export function useMovies() {
     loading.value = true
     error.value = null
     try {
-      const response = await OMDbService.getList(query, selectedType.value, page)
-      if (response.data.Response === 'True') {
+      const response = await OMDbService.searchAll(query, page)
+      if (response.data.Search.length > 0) {
         movies.value = response.data.Search
-        totalPages.value = Math.ceil(parseInt(response.data.totalResults) / 10)
+        totalPages.value = Math.ceil(parseInt(response.data.totalResults) / 20)
       } else {
         error.value = 'No results found'
         movies.value = []

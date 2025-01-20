@@ -3,7 +3,7 @@
     <v-app-bar v-if="user" color="rgb(9, 11, 19)" elevation="0" class="px-4">
       <v-container class="d-flex align-center py-1 px-0">
         <nuxt-link to="/" class="text-decoration-none d-flex align-center">
-          <v-img src="/assets/fantasia-logo.png" max-width="80" class="mr-8" />
+          <v-img :src="logoImage" max-width="80" class="mr-8" />
         </nuxt-link>
         
         <v-btn variant="text" class="nav-btn" to="/">
@@ -18,7 +18,6 @@
 
         <v-spacer />
 
-        <!-- Profile Menu -->
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -65,6 +64,8 @@
 </template>
 
 <script setup lang="ts">
+import logoImage from '@/assets/fantasia-logo.png'
+
 const user = useSupabaseUser()
 const { auth } = useSupabaseClient()
 const router = useRouter()

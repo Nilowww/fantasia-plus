@@ -29,19 +29,26 @@
         </v-chip-group>
       </div>
 
-      <MovieGrid
-        :movies="movies"
-        :total-pages="totalPages"
-        v-model="currentPage"
-        @select="navigateToMovie"
-        @update:model-value="handlePageChange"
+      <Transition
+        mode="out-in"
+        name="fade"
       >
-        <template #header>
-          <h3 class="text-h6 font-weight-medium text-white">
-          {{ selectedType === EOMDbType.MOVIE ? 'Movies' : 'Series' }}
-          </h3>
-        </template>
-      </MovieGrid>
+        <MovieGrid
+          :key="currentPage"
+          :movies="movies"
+          :total-pages="totalPages"
+          :loading="loading"
+          v-model="currentPage"
+          @select="navigateToMovie"
+          @update:model-value="handlePageChange"
+        >
+          <template #header>
+            <h3 class="text-h6 font-weight-medium text-white">
+            {{ selectedType === EOMDbType.MOVIE ? 'Movies' : 'Series' }}
+            </h3>
+          </template>
+        </MovieGrid>
+      </Transition>
 
       <div v-if="loading" class="d-flex justify-center py-8">
         <v-progress-circular indeterminate color="primary" size="64"></v-progress-circular>
@@ -79,9 +86,8 @@ const {
   setType
 } = useMovies()
 
-function handlePageChange(page: number) {
-  fetchMovies(page)
-  window.scroll({ top: 0, behavior: 'smooth' })
+async function handlePageChange(page: number) {
+  await fetchMovies(page)
 }
 
 function navigateToMovie(id: string) {
@@ -103,5 +109,15 @@ onMounted(() => fetchMovies())
 :deep(.selected-chip) {
   background-color: rgb(79, 172, 254) !important;
   color: white !important;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
