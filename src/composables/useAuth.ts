@@ -3,6 +3,7 @@ import { navigateTo } from "nuxt/app";
 
 export function useAuth() {
   const supaAuth = useSupabaseClient().auth;
+  const form = ref();
 
   const credentials = reactive({
     email: "",
@@ -18,6 +19,10 @@ export function useAuth() {
   const passwordType = computed(() => (showPassword.value ? "text" : "password"));
 
   const login = async () => {
+    // Validate form before proceeding
+    const { valid } = await form.value?.validate();
+    if (!valid) return;
+
     loading.value = true;
     const { error } = await supaAuth.signInWithPassword(credentials);
     loading.value = false;
@@ -30,18 +35,22 @@ export function useAuth() {
   };
 
   const signUp = async () => {
+    // Validate form before proceeding
+    const { valid } = await form.value?.validate();
+    if (!valid) return;
+
     if (credentials.password !== credentials.passwordConfirm) {
       errorMessage.value = "Passwords do not match";
       return;
     }
-  
+
     loading.value = true;
     const { error } = await supaAuth.signUp({
       email: credentials.email,
       password: credentials.password,
     });
     loading.value = false;
-  
+
     if (error) {
       errorMessage.value = error.message;
     } else {
@@ -54,6 +63,7 @@ export function useAuth() {
   }
 
   return {
+    form,
     credentials,
     rememberMe,
     loading,

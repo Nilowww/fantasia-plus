@@ -17,18 +17,16 @@
         <v-card class="login-card mx-auto" elevation="24" max-width="100%">
           <v-card-title>
             <h1 class="text-h5 font-weight-bold mb-0">Log in</h1>
-            <p class="text-subtitle-1 mb-3">
-              Enter your details to get started
-            </p>
+            <p class="text-subtitle-1 mb-3">Enter your details to get started</p>
           </v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="login">
+            <v-form ref="form" @submit.prevent="login">
               <v-text-field
                 v-model="credentials.email"
                 label="Email"
                 type="email"
                 required
-                :rules="[(v: any) => !!v || 'Email is required']"
+                :rules="[ruleRequired, ruleEmail]"
                 class="mb-3"
                 prepend-inner-icon="mdi-email"
                 variant="outlined"
@@ -39,7 +37,7 @@
                 :type="passwordType"
                 label="Password"
                 required
-                :rules="[(v: any) => !!v || 'Password is required']"
+                :rules="[ruleRequired, rulePassLen]"
                 prepend-inner-icon="mdi-lock"
                 :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append-inner="togglePasswordVisibility"
@@ -92,8 +90,9 @@
 
 <script setup lang="ts">
 import { useAuth } from "../composables/useAuth";
-
+const { ruleEmail, rulePassLen, ruleRequired } = useFormRules();
 const {
+  form,
   credentials,
   rememberMe,
   loading,
@@ -103,7 +102,6 @@ const {
   login,
   togglePasswordVisibility,
 } = useAuth();
-
 </script>
 
 <style scoped>
@@ -198,7 +196,6 @@ const {
 :deep(.v-checkbox .v-label) {
   color: rgba(255, 255, 255, 0.9);
 }
-
 
 .v-card-title {
   color: white;

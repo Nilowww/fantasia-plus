@@ -22,13 +22,13 @@
             </p>
           </v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="signUp">
+            <v-form ref="form" @submit.prevent="signUp">
               <v-text-field
                 v-model="credentials.email"
                 label="Email"
                 type="email"
                 required
-                :rules="[(v: any) => !!v || 'Email is required']"
+                :rules="[ruleRequired, ruleEmail]"
                 class="login-text-field mb-3"
                 prepend-inner-icon="mdi-email"
                 variant="outlined"
@@ -39,7 +39,7 @@
                 :type="passwordType"
                 label="Password"
                 required
-                :rules="[(v: any) => !!v || 'Password is required']"
+                :rules="[ruleRequired, rulePassLen]"
                 prepend-inner-icon="mdi-lock"
                 :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append-inner="togglePasswordVisibility"
@@ -52,7 +52,7 @@
                 :type="passwordType"
                 label="Confirm Password"
                 required
-                :rules="[(v: any) => !!v || 'Please confirm your password']"
+                :rules="[(v) => !!v || 'Please confirm your password']"
                 prepend-inner-icon="mdi-lock"
                 :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append-inner="togglePasswordVisibility"
@@ -99,8 +99,9 @@
 
 <script setup lang="ts">
 import { useAuth } from "../composables/useAuth";
-
+const { ruleEmail, rulePassLen, ruleRequired } = useFormRules();
 const {
+  form,
   credentials,
   loading,
   errorMessage,
@@ -109,7 +110,6 @@ const {
   signUp,
   togglePasswordVisibility,
 } = useAuth();
-
 </script>
 
 <style scoped>

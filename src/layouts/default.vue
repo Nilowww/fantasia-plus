@@ -71,9 +71,17 @@ const router = useRouter()
 const menu = ref(false)
 
 const handleLogout = async () => {
+  menu.value = false
   await auth.signOut()
   router.push('/login')
 }
+
+watch(
+  () => router.currentRoute.value.path,
+  () => {
+    menu.value = false
+  }
+)
 </script>
 
 <style>
