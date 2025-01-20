@@ -8,7 +8,7 @@ Fantasia+ is a demo project inspired by Disney, created as part of a technical i
 
 ## Demo
 
-[Online Demo]()
+[Online Demo](https://fantasiaplus.netlify.app/)
 
 ## Requirements
 To run the project locally, you need:
