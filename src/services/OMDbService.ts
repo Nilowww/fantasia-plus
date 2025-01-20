@@ -3,11 +3,11 @@ import type { EOMDbType, OMDbError, OMDbMovie, OMDbSearchResponse, OMDbSerie } f
 
 export class OMDbService {
     static async get(id: string) {
-        return await axios.get<OMDbMovie|OMDbSerie|OMDbError>(`https://www.omdbapi.com/?apikey=d71ccc1e&i=${id}&plot=full`)
+        return await axios.get<OMDbMovie|OMDbSerie|OMDbError>(`/api/omdb/${id}`)
     }
     
     static async getList(search: string = "Movie", type?: EOMDbType, page: number = 1) {
-        let url = `https://www.omdbapi.com/?apikey=d71ccc1e&s=${search}&page=${page}`
+        let url = `/api/omdb/?s=${search}&page=${page}`
         if (type) {
             url += `&type=${type}`
         }

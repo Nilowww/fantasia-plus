@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-  srcDir: 'src/',
+  srcDir: './src/',
   modules: [
     '@nuxtjs/supabase',
     '@pinia/nuxt',
