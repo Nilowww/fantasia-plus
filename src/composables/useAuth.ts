@@ -54,7 +54,7 @@ export function useAuth() {
     if (error) {
       errorMessage.value = error.message;
     } else {
-      navigateTo("/login");
+      navigateTo("/");
     }
   };
 
