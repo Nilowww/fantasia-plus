@@ -6,14 +6,20 @@
         :elevation="isHovering ? 8 : 2"
         :class="['movie-card', { 'on-hover': isHovering }]"
         @click="$emit('click', movie.imdbID)"
+        @keydown.enter="$emit('click', movie.imdbID)"
+        role="article"
+        tabindex="0"
+        :aria-label="'Movie: ' + movie.Title"
       >
         <v-img
           :src="movie.Poster !== 'N/A' ? movie.Poster : placeholderImage"
           :aspect-ratio="2/3"
           cover
           class="movie-poster"
+          :alt="movie.Title + ' poster'"
+          loading="lazy"
         >
-          <div v-if="isHovering" class="card-overlay">
+          <div v-if="isHovering" class="card-overlay" role="region" aria-live="polite">
             <div class="pa-4">
               <h3 class="text-subtitle-1 font-weight-bold mb-2">{{ movie.Title }}</h3>
               <p class="text-caption">{{ movie.Year }}</p>
@@ -21,6 +27,7 @@
                 size="small"
                 color="primary"
                 class="mt-2"
+                :aria-label="movie.Type === 'movie' ? 'Movie type' : 'Series type'"
               >
                 {{ movie.Type === 'movie' ? 'Movie' : 'Serie' }}
               </v-chip>
