@@ -43,12 +43,12 @@
 import type { OMDbShort } from '~/types/movies'
 import placeholderImage from '@/assets/placeholder.jpg'
 
-defineProps<{
-  movie: OMDbShort
+defineProps<{ 
+  movie: OMDbShort 
 }>()
 
-defineEmits<{
-  click: [id: string]
+defineEmits<{ 
+  click: [id: string] 
 }>()
 </script>
 
@@ -79,5 +79,14 @@ defineEmits<{
 
 .movie-card.on-hover .card-overlay {
   opacity: 1;
+}
+
+.movie-card:focus {
+  outline: 2px solid rgb(79, 172, 254);
+  outline-offset: 2px;
+}
+
+.card-overlay {
+  background: rgba(0, 0, 0, 0.8);
 }
 </style>

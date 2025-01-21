@@ -11,6 +11,11 @@
           HOME
         </v-btn>
 
+        <v-btn variant="text" class="nav-btn" to="/favorites">
+          <v-icon start>mdi-heart</v-icon>
+          FAVORITES
+        </v-btn>
+
         <v-spacer />
 
         <div class="d-flex align-center">
@@ -73,11 +78,7 @@
                 placeholder="Search movies and series..."
                 variant="outlined"
                 hide-details
-                :bg-color="
-                  searchError.length
-                    ? 'rgba(244, 67, 54, 0.1)'
-                    : 'rgba(255, 255, 255, 0.1)'
-                "
+                :bg-color="searchError.length ? 'rgba(244, 67, 54, 0.1)' : 'rgba(255, 255, 255, 0.1)'"
                 density="compact"
                 class="search-input"
                 :loading="searchStore.loading"
@@ -106,14 +107,10 @@
 
     <v-main class="main-content">
       <slot />
-
       <!-- Search Results Overlay -->
       <v-expand-transition>
         <div
-          v-if="
-            searchStore.isSearchOpen &&
-            (searchStore.searchResults.length > 0 || searchStore.error)
-          "
+          v-if="searchStore.isSearchOpen && (searchStore.searchResults.length > 0 || searchStore.error)"
           class="search-results-overlay"
         >
           <v-container class="px-8 py-4">
@@ -126,9 +123,7 @@
             </div>
 
             <div v-else-if="searchStore.error" class="text-center py-8">
-              <v-icon size="64" color="error" class="mb-4"
-                >mdi-alert-circle</v-icon
-              >
+              <v-icon size="64" color="error" class="mb-4">mdi-alert-circle</v-icon>
               <h3 class="text-h5 text-white mb-2">{{ searchStore.error }}</h3>
               <p class="text-subtitle-1 text-medium-emphasis">
                 Try with other search terms

@@ -15,7 +15,9 @@
                 :aspect-ratio="2/3"
                 class="poster-image"
                 cover
-              ></v-img>
+              >
+                <FavoriteButton :movie="currentMovie" class="favorite-btn" />
+              </v-img>
             </div>
 
             <div class="info-container">
@@ -205,6 +207,15 @@ onMounted(async () => {
 .poster-image {
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
 }
 
 .info-container {
