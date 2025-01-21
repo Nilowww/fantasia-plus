@@ -102,6 +102,17 @@ const {
   login,
   togglePasswordVisibility,
 } = useAuth();
+
+useHead({
+  title: 'Fantasia+ | Log In',
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }
+  ]
+})
 </script>
 
 <style scoped>

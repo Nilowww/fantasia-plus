@@ -2,8 +2,8 @@
   <div class="movie-detail-page">
     <v-container class="px-8 py-4" v-if="currentMovie">
       <div class="movie-hero">
-        <div 
-          class="hero-backdrop" 
+        <div
+          class="hero-backdrop"
           :style="{ backgroundImage: `url(${currentMovie.Poster})` }"
         ></div>
 
@@ -12,7 +12,6 @@
             <div class="poster-container">
               <v-img
                 :src="currentMovie.Poster"
-                width="100%"
                 :aspect-ratio="2/3"
                 class="poster-image"
                 cover
@@ -20,17 +19,16 @@
             </div>
 
             <div class="info-container">
-              <h1 class="text-h2 font-weight-bold mb-4">{{ currentMovie.Title }}</h1>
+              <h1 class="text-h3 text-sm-h2 font-weight-bold mb-4">{{ currentMovie.Title }}</h1>
               
               <div class="meta-info mb-6">
-                <v-chip color="primary" variant="elevated" class="mr-2">{{ currentMovie.Year }}</v-chip>
-                <v-chip color="secondary" variant="elevated" class="mr-2">{{ currentMovie.Rated }}</v-chip>
-                <v-chip color="info" variant="elevated">{{ currentMovie.Runtime }}</v-chip>
-                <!-- Add Type indicator -->
+                <v-chip color="primary" variant="elevated" class="mr-2 mb-2">{{ currentMovie.Year }}</v-chip>
+                <v-chip color="secondary" variant="elevated" class="mr-2 mb-2">{{ currentMovie.Rated }}</v-chip>
+                <v-chip color="info" variant="elevated" class="mb-2">{{ currentMovie.Runtime }}</v-chip>
                 <v-chip 
                   :color="currentMovie.Type === 'movie' ? 'success' : 'warning'" 
                   variant="elevated" 
-                  class="ml-2"
+                  class="ml-2 mb-2"
                 >
                   {{ currentMovie.Type === 'movie' ? 'Movie' : 'TV Series' }}
                 </v-chip>
@@ -88,7 +86,6 @@
                   <p>{{ currentMovie.Language }}</p>
                 </div>
 
-                <!-- Show movie-specific details -->
                 <template v-if="isMovie">
                   <div class="detail-item" v-if="movieDetails.BoxOffice !== 'N/A'">
                     <h4>Box Office</h4>
@@ -104,7 +101,6 @@
                   </div>
                 </template>
 
-                <!-- Show series-specific details -->
                 <template v-else>
                   <div class="detail-item">
                     <h4>Total Seasons</h4>
@@ -139,13 +135,20 @@
 </template>
 
 <script setup lang="ts">
-import type { OMDbMovie, OMDbSerie } from '~/types/movies';
+import type { OMDbMovie, OMDbSerie } from '~/types/movies'
 
 definePageMeta({ middleware: 'authenticated' })
 
-const router = useRouter()
 const route = useRoute()
+const router = useRouter()
 const { currentMovie, loading, error, fetchMovieById } = useMovies()
+
+useHead({
+  title: computed(() => currentMovie.value 
+    ? `Fantasia+ | ${currentMovie.value.Title}`
+    : 'Fantasia+ | Details'
+  )
+})
 
 // Type guards
 const isMovie = computed(() => currentMovie.value?.Type === 'movie')
@@ -306,12 +309,60 @@ onMounted(async () => {
 
 @media (max-width: 600px) {
   .movie-detail-page {
-    padding-top: 48px;
+    padding-top: 56px;
+  }
+
+  .movie-hero {
+    border-radius: 0;
   }
 
   .back-button {
-    top: 64px;
+    top: 12px;
     left: 16px;
+    height: 36px;
+    width: 36px;
+  }
+
+  .hero-content {
+    padding: 16px;
+  }
+
+  .content-grid {
+    gap: 24px;
+  }
+
+  .poster-container {
+    max-width: 200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .poster-image {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .meta-info {
+    gap: 4px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  h1 {
+    font-size: 1.75rem !important;
+    line-height: 1.2;
+  }
+
+  .plot-section {
+    font-size: 1rem;
+  }
+
+  .v-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 }
 </style>

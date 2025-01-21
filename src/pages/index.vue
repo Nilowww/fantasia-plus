@@ -74,6 +74,17 @@ definePageMeta({
   middleware: 'authenticated'
 })
 
+useHead({
+  title: 'Fantasia+',
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }
+  ]
+})
+
 const router = useRouter()
 const { 
   movies,

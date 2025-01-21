@@ -110,6 +110,17 @@ const {
   signUp,
   togglePasswordVisibility,
 } = useAuth();
+
+useHead({
+  title: 'Fantasia+ | Sign Up',
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }
+  ]
+})
 </script>
 
 <style scoped>
