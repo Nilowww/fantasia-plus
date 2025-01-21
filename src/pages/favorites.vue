@@ -64,6 +64,17 @@ const router = useRouter();
 const favoritesStore = useFavoritesStore();
 const searchQuery = ref('');
 
+useHead({
+  title: 'Fantasia+ | Favorites',
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }
+  ]
+})
+
 const navigateToMovie = (id: string) => {
   router.push(`/movies/${id}`);
 };

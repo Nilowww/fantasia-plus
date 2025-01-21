@@ -7,13 +7,21 @@
         </nuxt-link>
 
         <v-btn variant="text" class="nav-btn" to="/">
-          <v-icon start>mdi-home</v-icon>
-          HOME
+          <v-icon>mdi-home</v-icon>
+          <span class="d-none d-sm-inline ml-2">HOME</span>
         </v-btn>
 
         <v-btn variant="text" class="nav-btn" to="/favorites">
-          <v-icon start>mdi-heart</v-icon>
-          FAVORITES
+          <v-icon>mdi-heart</v-icon>
+          <span class="d-none d-sm-inline ml-2">FAVORITES</span>
+        </v-btn>
+
+        <v-btn
+          variant="text"
+          class="nav-btn d-block d-sm-none"
+          @click="searchStore.toggleSearch"
+        >
+          <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
         <v-spacer />
@@ -23,7 +31,7 @@
             <div v-if="!searchStore.isSearchOpen" class="d-flex align-center">
               <v-btn
                 variant="text"
-                class="nav-btn"
+                class="nav-btn d-none d-sm-flex"
                 @click="searchStore.toggleSearch"
               >
                 <v-icon>mdi-magnify</v-icon>
@@ -36,14 +44,13 @@
                 transition="slide-y-transition"
               >
                 <template v-slot:activator="{ props }">
-                  <v-avatar
-                    class="cursor-pointer ml-4"
-                    color="primary"
-                    size="32"
+                  <v-btn
+                    variant="text"
+                    class="nav-btn"
                     v-bind="props"
                   >
                     <v-icon>mdi-account</v-icon>
-                  </v-avatar>
+                  </v-btn>
                 </template>
 
                 <v-card class="profile-menu" min-width="200">
@@ -107,7 +114,6 @@
 
     <v-main class="main-content">
       <slot />
-      <!-- Search Results Overlay -->
       <v-expand-transition>
         <div
           v-if="searchStore.isSearchOpen && (searchStore.searchResults.length > 0 || searchStore.error)"
@@ -324,6 +330,12 @@ watch(
 
   .nav-btn {
     margin-right: 12px;
+    min-width: 40px !important;
+    padding: 0 8px !important;
+  }
+
+  .nav-btn:last-child {
+    margin-right: 0;
   }
 }
 </style>
